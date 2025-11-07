@@ -1,0 +1,5 @@
+The two files you provided contain different content and are not compatible with each other. The first file is a CSS file that defines the styling for a website, while the second file is a SCSS file that contains variables and mixins for use in a SASS project.
+
+If you want to combine both files into one, you can simply copy the content of the SCSS file into the CSS file. However, it's important to note that the SCSS file contains variables and mixins that are not available in CSS, so you may need to adjust the styling accordingly.
+
+Alternatively, you can use a tool like `scss-to-css` to convert the SCSS file into a valid CSS file. This will allow you to use the variables and mixins defined in the SCSS file in your CSS code.
