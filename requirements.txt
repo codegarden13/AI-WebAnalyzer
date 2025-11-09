@@ -1,4 +1,21 @@
-cssutils==2.9.0
-tinycss2==1.3.0
-beautifulsoup4==4.12.2
-requests==2.31.0
+# ===========================================
+# AI-WebAnalyzer — Python Requirements
+# ===========================================
+# Diese Datei listet alle benötigten Pakete mit kurzer Beschreibung auf.
+# Kommentare (mit #) werden von pip ignoriert.
+# Installation:  pip install -r requirements.txt
+# ===========================================
+
+# CSS-Parsing & Analyse
+cssutils==2.9.0        # Parser für CSS, liest Selektoren & Deklarationen
+tinycss2==1.3.0        # Alternativer CSS-Parser mit detaillierter Syntaxanalyse
+
+# HTML-Analyse
+beautifulsoup4==4.12.2 # HTML/XML-Parser, extrahiert Tags, Klassen & IDs
+requests==2.31.0       # Lädt HTML-Seiten oder APIs via HTTP(S)
+
+# Konfiguration & Umgebungsvariablen
+python-dotenv==1.0.1   # Liest .env-Datei für Pfade & Optionen (CSS_DIR, OUTPUT_DIR etc.)
+
+# (Optional) Lokales LLM für KI-Funktionen
+# ollama==0.1.0        # Nur falls du Ollama-API direkt aus Python verwenden willst

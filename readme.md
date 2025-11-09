@@ -1,10 +1,11 @@
-# 🎨 AI-WebAnalyzer  
-**Intelligente CSS- und HTML-Analyse mit Graph-Visualisierung**
+<h1 align="center">🎨 AI-WebAnalyzer</h1>
+<p>
 
-Analyse, Visualisierung und Optimierung von CSS-Strukturen – optional erweitert durch KI-gestützte Refaktorierung mit **Ollama**  
-(z. B. *CodeLlama*, *LLaMA-Modelle*).
+KI-Analyse, Visualisierung, Optimierung, Refaktorierung von CSS-Strukturen mit **Ollama**  </p>
+<p align="center">
+  <img src="./assets/logo.png" alt="Illustration des Projekts" width="600">
+</p>
 
----
 
 ## 🚀 Funktionsübersicht
 
@@ -14,6 +15,8 @@ Analyse, Visualisierung und Optimierung von CSS-Strukturen – optional erweiter
 - Erstellt `css_graph_with_html.json` als Basis für Visualisierung  
 
 ### 🕸️ Interaktive Visualisierung  
+
+  <img src="./screenshot.png" alt="Illustration" width="600">
 - Zoom- und Pan-fähig (D3.js Force Graph)  
 - Farbcodierung nach Typen: Datei 🟧, Selektor 🟦, Property 🟩, HTML 💖  
 - Dynamische Legende mit Checkboxen zum Ein-/Ausblenden  
@@ -34,7 +37,7 @@ Analyse, Visualisierung und Optimierung von CSS-Strukturen – optional erweiter
 - Erzeugt `css_summary.json` mit Property-Häufigkeiten  
 - Erstellt `css_graph_analysis.md` mit semantischer Graph-Analyse  
 
----
+
 
 ## 🧱 Projektstruktur
 

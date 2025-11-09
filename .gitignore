@@ -1,1 +1,13 @@
 .env
+
+# --- Build- und Output-Dateien ---
+output/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# --- Mac / Windows Systemdateien ---
+.DS_Store
+Thumbs.db

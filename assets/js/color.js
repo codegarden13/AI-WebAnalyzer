@@ -7,6 +7,7 @@ export function colorByType(type) {
     case "matches": return "#e91e63";
     case "defines": return "#ff9800";
     case "uses": return "#4caf50";
+    case "unused": return "#777"; // graue, blasse Farbe
     default: return "#999";
   }
 }
