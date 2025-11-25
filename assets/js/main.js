@@ -64,7 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Filterfeld
-  filterInput.addEventListener("input", e => applyFilter(e.target.value));
+  //filterInput.addEventListener("input", e => applyFilter(e.target.value));
+
+
+  filterInput.addEventListener("input", e => {
+    const value = e.target.value.trim();
+    applyFilter(value);     // filter graph nodes
+    showMatches(value);     // filter CSS lines
+  });
 
   // initial
   loadGraph();
