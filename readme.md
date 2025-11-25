@@ -6,10 +6,10 @@ KI-Analyse, Visualisierung, Optimierung, Refaktorierung von CSS-Strukturen mit *
   <img src="./assets/logo.png" alt="Illustration des Projekts" width="600">
 </p>
 
-
 ## 🚀 Funktionsübersicht
 
 ### 🧩 CSS-Graph der Struktur  
+
 - Analysiert CSS-Dateien in definierter Reihenfolge  
 - Baut logische Beziehungen auf (*Datei → Selektor → Property*)  
 - Erstellt `css_graph_with_html.json` als Basis für Visualisierung  

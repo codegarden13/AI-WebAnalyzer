@@ -2,7 +2,22 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv()
+# config.py — robust environment loader
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# → Stelle sicher, dass IMMER die .env aus dem aktuellen Projekt geladen wird
+BASE_DIR = Path(__file__).resolve().parent
+ENV_PATH = BASE_DIR / ".env"
+
+
+if ENV_PATH.exists():
+    load_dotenv(ENV_PATH)
+    print(f"✅ Loaded .env from {ENV_PATH}")
+else:
+    print("⚠️ No .env found in AI-WebAnalyzer directory!")
+
 
 class Settings:
 

@@ -65,3 +65,4 @@ OUTPUT_DIR="/Users/thomassalomon/Library/Mobile Documents/com~apple~CloudDocs/Do
 TARGET_URL=http://localhost:8182/public/index.php?category_id=3
 
 
+python3 -m AI-WebAnalyzer.main

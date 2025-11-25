@@ -5,21 +5,30 @@
   <meta charset="UTF-8">
   <title>CSS + HTML Graph Visualizer</title>
 
-  <!-- Styles -->
+  <!-- Base Styles -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
 
 </head>
 
 <body>
-  <div id="controls">
 
+  <!-- ──────────────────────────────────────────── -->
+  <!-- Controls + Legend -->
+  <!-- ──────────────────────────────────────────── -->
+  <div id="controls">
     <input id="filterInput" type="text" placeholder="Filter (regex e.g. .hero|#nav)">
     <div id="legend"></div>
   </div>
 
+  <!-- ──────────────────────────────────────────── -->
+  <!-- Graph Visualization Container -->
+  <!-- ──────────────────────────────────────────── -->
   <div id="graph"></div>
 
+    <!-- ──────────────────────────────────────────── -->
+  <!-- Code View Table (search results) -->
+  <!-- ──────────────────────────────────────────── -->
   <div id="codeView">
     <table id="resultTable">
       <thead>
@@ -34,6 +43,7 @@
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script type="module" src="./assets/js/main.js"></script>
+
 </body>
 
 </html>
