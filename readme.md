@@ -1,10 +1,18 @@
 # AI-WebAnalyzer
 
+from “code cleanup” to architectural insights.
+
 <p align="center">
   <img src="./screenshot.png" alt="Graph-Screenshot" width="500">
 </p>
 
 *First KI tool (webdev), started oct-2025.* 😎 👉  Analyzing, visualizing, and optimizing CSS architectures.
+
+
+
+multi-phase Ollama analysis layer that eats CSS and graph data from it. It combines structured data (the css_graph.json) and semantic reasoning from Ollama.
+
+
 
 
 
