@@ -1,83 +1,129 @@
-<h1 align="center">🎨 AI-WebAnalyzer</h1>
-<p>
+# AI-WebAnalyzer
 
-KI-Analyse, Visualisierung, Optimierung, Refaktorierung von CSS-Strukturen mit **Ollama**  </p>
+*First KI tool, started oct-2025.* 😎
+
+Dev tool for analyzing, visualizing, and optimizing CSS architectures.
+
+Combines static analysis (parsing, graph modeling, metrics) with an interactive D3.js visualization (and optional AI-powered insights via Ollama).
+
 <p align="center">
-  <img src="./assets/logo.png" alt="Illustration des Projekts" width="600">
+  <img src="./screenshot.png" alt="Graph-Screenshot" width="500">
 </p>
 
-## 🚀 Funktionsübersicht
+- loads your CSS files in a defined order, extracts all dependencies (file → selector → property), and builds a structural graph. Optionally, it fetches an HTML reference page to detect which selectors are actually used and to highlight unused or redundant parts of your styles.
 
-### 🧩 CSS-Graph der Struktur  
+- web interface renders the full relationship graph with zooming, tooltips, filtering, a dynamic legend, and a live table showing all matching CSS lines via regex.
+With Ollama enabled, the system can also produce refactoring suggestions, audits, and semantic insights.
 
-- Analysiert CSS-Dateien in definierter Reihenfolge  
-- Baut logische Beziehungen auf (*Datei → Selektor → Property*)  
-- Erstellt `css_graph_with_html.json` als Basis für Visualisierung  
+In short:
+👉 A practical tool that makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
 
-### 🕸️ Interaktive Visualisierung  
+## Features
 
-  <img src="./screenshot.png" alt="Illustration" width="600">
-- Zoom- und Pan-fähig (D3.js Force Graph)  
-- Farbcodierung nach Typen: Datei 🟧, Selektor 🟦, Property 🟩, HTML 💖  
-- Dynamische Legende mit Checkboxen zum Ein-/Ausblenden  
-- Regex-Filter zum schnellen Finden von Selektoren oder Mustern  
-- Tooltips mit Detailinformationen  
-
-### 🌐 HTML-Zuordnung  
-- Lädt HTML von einer URL oder lokalen Datei  
-- Ermittelt, welche CSS-Selektoren im DOM tatsächlich vorkommen  
-- Markiert unbenutzte Selektoren  
-
-### 🤖 Optionale KI-Analyse (Ollama)  
-- Refaktoriert CSS-Code semantisch  
-- Prüft Struktur, Redundanzen und Naming-Konsistenz  
-- Liefert textbasierte Berichte (Audit, Refactor, Insights)  
-
-### 📊 Metriken & Insights  
-- Erzeugt `css_summary.json` mit Property-Häufigkeiten  
-- Erstellt `css_graph_analysis.md` mit semantischer Graph-Analyse  
+<details>
+<summary>Features</summary>
 
 
 
-## 🧱 Projektstruktur
+### 🧩 CSS Structure Graph
+- Processes CSS files in strict order
+- Creates a logical model of file → selector → property
+- Outputs not only css_graph_with_html.json for visualization
 
-```txt
+🕸️ Interactive D3.js Visualization
+- Force-directed graph with zoom & pan
+- Color-coded node types (file, selector, property, HTML)
+- Dynamic legend with checkboxes to toggle types
+- Regex-based search that filters both graph nodes and CSS lines
+- Hover tooltips with detailed metadata
+
+### 🌐 HTML Mapping
+- Loads a reference HTML page (URL or file)
+- Detects which selectors actually match real DOM elements
+- Highlights unused CSS selectors
+
+### 🤖 Optional AI Support (Ollama)
+- Semantic CSS refactoring
+- Structural audits and naming consistency checks
+- Graph-based insights using large language models
+
+### 📊 Extra Metrics
+- CSS summaries with property frequencies
+- Complexity and specificity scoring for selectors
+- css_graph_analysis.md with semantic graph insights
+</details>
+
+## Project Structure
+<details>
+<summary>Project Structure</summary>
+
+
+```text
 AI-WebAnalyzer/
 │
 ├── assets/
-│   ├── css/style.css              → Globales Stylesheet für D3-Visualisierung
-│   └── js/                        → Modularer D3-Code
-│       ├── main.js                → Einstiegspunkt, lädt Graph und initiiert Render
-│       ├── graph.js               → D3-Simulation, Nodes/Links, Force Layout
-│       ├── filter.js              → Regex-Filterlogik
-│       ├── legend.js              → Dynamische Legende mit Checkboxen
-│       ├── tooltip.js             → Tooltip-Darstellung bei Hover
-│       ├── zoom.js                → Zoom- und Pan-Logik (inkl. Reset)
-│       └── color.js               → Farbdefinition nach Knotentyp
+│   ├── css/style.css              # Global stylesheet for the D3 UI
+│   └── js/                        # Modular D3 visualization scripts
+│       ├── main.js                # Entry point
+│       ├── graph.js               # Force graph logic
+│       ├── filter.js              # Regex filtering
+│       ├── legend.js              # Dynamic legend
+│       ├── tooltip.js             # Hover tooltip behavior
+│       ├── zoom.js                # Zoom & pan
+│       └── color.js               # Color definitions
 │
 ├── ollama/
-│   ├── audit.py                   → CSS-Audit per Ollama-Modell
-│   ├── graph_analysis.py          → Semantische Graph-Analyse (Verknüpfungen)
-│   ├── refactor.py                → CSS-Refaktorierung
-│   ├── insights.py                → Berechnung von Statistiken
-│   ├── service.py                 → Start/Stop/Check des Ollama-Dienstes
-│   └── utils.py                   → Hilfsfunktionen & Validierungen
+│   ├── audit.py                   # Runs CSS audits using Ollama
+│   ├── graph_analysis.py          # Semantic graph analysis
+│   ├── refactor.py                # Refactors CSS via LLM
+│   ├── insights.py                # Generates metrics
+│   ├── service.py                 # Manages Ollama service
+│   └── utils.py                   # Utility functions
 │
-├── output/                        → Generierte Ergebnisse
-│   ├── css_graph_with_html.json   → Hauptgraph inkl. HTML-Nodes
-│   ├── css_graph_analysis.md      → KI-Analyseergebnisse
-│   └── refactored/                → Refaktorierte CSS-Dateien pro Input
+├── output/                        # Generated artifacts
+│   ├── css_graph_with_html.json   # Main graph
+│   ├── css_graph_analysis.md      # AI-generated insights
+│   └── refactored/                # Per-file refactored CSS
 │
 ├── templates/
-│   └── css_graph.html             → HTML-Template für D3-Visualisierung
+│   └── css_graph.html             # HTML shell for visualization
 │
-├── main.py                        → Zentrale Steuerung: Analyse, Graph, Serverstart
-├── loader.py                      → Lädt & kombiniert CSS-Dateien
-├── parser_css.py                  → Parsed CSS via cssutils & tinycss2
-├── graph_builder.py               → Erstellt Beziehungsgraph
-├── html_mapper.py                 → Verknüpft CSS-Selektoren mit HTML-Elementen
-├── visualizer.py                  → Kopiert Template, startet lokalen Webserver
-├── config.py                      → Liest Einstellungen aus `.env`
-├── .env                           → Konfigurationsdatei
-├── requirements.txt               → Python-Abhängigkeiten
-└── readme.md                      → Diese Dokumentation
+├── main.py                        # Orchestrator: CSS → Graph → Server
+├── loader.py                      # CSS loading & merging
+├── parser_css.py                  # CSS parsing (cssutils + tinycss2)
+├── graph_builder.py               # Builds node/link relationships
+├── html_mapper.py                 # HTML → CSS matching
+├── visualizer.py                  # Copies template & starts web server
+├── config.py                      # Reads settings from `.env`
+├── .env                           # User configuration
+├── requirements.txt               # Python dependencies
+└── README.md                      # Documentation
+
+```
+
+</details>
+
+## Requirements
+- Python 3.9+
+- Optional: Ollama for AI analysis (ollama pull codellama:7b)
+
+## Clone Repository
+
+```sh
+git clone https://github.com/your-user/AI-WebAnalyzer.git
+cd AI-WebAnalyzer
+
+Install Dependencies
+
+pip install -r requirements.txt
+```
+
+
+
+
+## 🛠️ Usage
+
+Step 1 — Configure .env, example:
+
+CSS_FOLDER="/path/to/css/files"
+CSS_ORDER=0_tokens.css,1_base.css,2_layout.css,3_components
