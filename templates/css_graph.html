@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>CSS + HTML Graph Visualizer</title>
@@ -7,19 +8,32 @@
   <!-- Styles -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
-  
+
 </head>
 
 <body>
   <div id="controls">
-   
+
     <input id="filterInput" type="text" placeholder="Filter (regex e.g. .hero|#nav)">
     <div id="legend"></div>
   </div>
 
   <div id="graph"></div>
 
+  <div id="codeView">
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>Zeile</th>
+          <th>Inhalt</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script type="module" src="./assets/js/main.js"></script>
 </body>
+
 </html>
