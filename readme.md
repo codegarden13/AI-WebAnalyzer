@@ -10,12 +10,9 @@ from “code cleanup” to architectural insights.
 
 
 
-multi-phase Ollama analysis layer that eats CSS and graph data from it. It combines structured data (the css_graph.json) and semantic reasoning from Ollama.
+A multi-phase Ollama analysis layer that eats CSS and graph data from its output. It combines structured data (generated css_graph.json) and semantic reasoning from Ollama.
 
-
-
-
-
+Fold out:
 <details>
 <summary>🧩 Features</summary>
 
