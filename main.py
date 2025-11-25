@@ -84,6 +84,17 @@ def main():
     combined_path = output_dir / "combined.css"
     combined_path.write_text(combined_css, encoding="utf-8")
     print(f"🧵 Combined CSS written → {combined_path.name} ({len(combined_css)} chars)")
+    
+    # --> updated search for regex
+    combined_lines = [
+        {"num": i+1, "text": line}
+    for i, line in enumerate(combined_css.splitlines())
+    ]
+    (output_dir / "combined.lines.json").write_text(
+    json.dumps({"lines": combined_lines}, indent=2),
+    encoding="utf-8"
+    )
+    # Frontend-Filterfunktion kann damit auch CSS-Zeilen durchsuchen.
 
     # 4️⃣ Parse CSS
     cssutils_rules = parse_with_cssutils(combined_css)
