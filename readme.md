@@ -2,21 +2,14 @@
 
 *First KI tool, started oct-2025.* 😎
 
-Dev tool for analyzing, visualizing, and optimizing CSS architectures.
+👉 A practical dev tool for analyzing, visualizing, and optimizing CSS architectures.
 
-Combines static analysis (parsing, graph modeling, metrics) with an interactive D3.js visualization (and optional AI-powered insights via Ollama).
+Combines static analysis (parsing, graph modeling, metrics) with an interactive D3.js visualization (and optional AI-powered insights via Ollama) and makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
 
 <p align="center">
   <img src="./screenshot.png" alt="Graph-Screenshot" width="500">
 </p>
 
-- loads your CSS files in a defined order, extracts all dependencies (file → selector → property), and builds a structural graph. Optionally, it fetches an HTML reference page to detect which selectors are actually used and to highlight unused or redundant parts of your styles.
-
-- web interface renders the full relationship graph with zooming, tooltips, filtering, a dynamic legend, and a live table showing all matching CSS lines via regex.
-With Ollama enabled, the system can also produce refactoring suggestions, audits, and semantic insights.
-
-In short:
-👉 A practical tool that makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
 
 ## Overview
 <details>
@@ -99,6 +92,15 @@ AI-WebAnalyzer/
 
 ```
 
+</details>
+
+<details>
+<summary>Data flow</summary>
+
+- loads your CSS files in a defined order, extracts all dependencies (file → selector → property), and builds a structural graph. Optionally, it fetches an HTML reference page to detect which selectors are actually used and to highlight unused or redundant parts of your styles.
+
+- web interface renders the full relationship graph with zooming, tooltips, filtering, a dynamic legend, and a live table showing all matching CSS lines via regex.
+With Ollama enabled, the system can also produce refactoring suggestions, audits, and semantic insights.
 </details>
 
 ## Requirements
