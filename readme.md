@@ -18,12 +18,9 @@ With Ollama enabled, the system can also produce refactoring suggestions, audits
 In short:
 👉 A practical tool that makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
 
-## Features
-
+## Overview
 <details>
 <summary>Features</summary>
-
-
 
 ### 🧩 CSS Structure Graph
 - Processes CSS files in strict order
@@ -51,9 +48,10 @@ In short:
 - CSS summaries with property frequencies
 - Complexity and specificity scoring for selectors
 - css_graph_analysis.md with semantic graph insights
+- 
 </details>
 
-## Project Structure
+
 <details>
 <summary>Project Structure</summary>
 
