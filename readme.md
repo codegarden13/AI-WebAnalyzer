@@ -1,8 +1,8 @@
 # AI-WebAnalyzer
 
-*First KI tool, started oct-2025.* 😎
+*First KI tool for webdev, started oct-2025.* 😎
 
-👉 A practical dev tool for analyzing, visualizing, and optimizing CSS architectures.
+👉  Analyzing, visualizing, and optimizing CSS architectures.
 
 Combines static analysis (parsing, graph modeling, metrics) with an interactive D3.js visualization (and optional AI-powered insights via Ollama) and makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
 
