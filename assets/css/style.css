@@ -14,7 +14,7 @@ body {
   opacity: 0;
   color: #fff;
   font-size: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   z-index: 9999;
 }
 
@@ -31,7 +31,7 @@ body {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   outline: none;
-  box-shadow: 0 0 6px rgba(0,0,0,0.5);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
   z-index: 2000;
 }
 
@@ -40,7 +40,7 @@ body {
   position: fixed;
   top: 12px;
   right: 12px;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   color: #fff;
   padding: 8px 10px;
   border-radius: 8px;
@@ -77,7 +77,7 @@ body {
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
   outline: none;
-  box-shadow: 0 0 6px rgba(0,0,0,0.6);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
   z-index: 9999;
 }
 
@@ -86,7 +86,7 @@ body {
   position: fixed;
   top: 12px;
   right: 12px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   color: #fff;
   padding: 8px 12px;
   border-radius: 8px;
@@ -173,69 +173,90 @@ body {
 
 #graph svg {
   width: 90vw;
-  height: calc(90vw * 0.75); /* 4:3 ratio */
+  height: calc(90vw * 0.75);
+  /* 4:3 ratio */
   display: block;
   margin: 20px auto;
 }
 
 
-    body {
-      margin: 0;
-      background: #111;
-      color: #eee;
-      font-family: system-ui, sans-serif;
-    }
+body {
+  margin: 0;
+  background: #111;
+  color: #eee;
+  font-family: system-ui, sans-serif;
+}
 
-    #graph {
-      width: 100vw;
-      height: 100vh;
-    }
+#graph {
+  width: 100vw;
+  height: 100vh;
+}
 
-    #controls {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.65);
-      color: #eee;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      z-index: 10;
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      min-width: 240px;
-    }
+#controls {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #eee;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 240px;
+}
 
-    #filterInput {
-      width: 100%;
-      padding: 4px 8px;
-      border: none;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      font-size: 13px;
-    }
+#filterInput {
+  width: 100%;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 13px;
+}
 
-    #legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      font-size: 12px;
-      margin-top: 4px;
-    }
+#legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  margin-top: 4px;
+}
 
-    #legend span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+#legend span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-    #legend i {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-    }
-  
+#legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* Code view Table style */
+
+#codeView {
+  position: absolute;
+  bottom: 0;
+  height: 25vh;
+  width: 100%;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  color: #eee;
+  font-size: 12px;
+  border-top: 1px solid #444;
+}
+
+#resultTable td {
+  padding: 4px 6px;
+  border-bottom: 1px solid #333;
+  font-family: monospace;
+}
