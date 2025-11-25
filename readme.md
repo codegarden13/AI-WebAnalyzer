@@ -116,7 +116,15 @@ The system transforms CSS + optional HTML into:
 - web interface renders the full relationship graph with zooming, tooltips, filtering, a dynamic legend, and a live table showing all matching CSS lines via regex.
 With Ollama enabled, the system can also produce refactoring suggestions, audits, and semantic insights.
 
-🧠 High-Level Overview
+Summary
+
+	•	main.py = Orchestrates everything
+	•	ollama/ = AI logic (refactor, audit, graph insights)
+	•	templates/js/ = Modular D3 visualization
+	•	output/ = Generated reports + visual graph
+	•	html_mapper.py = HTML-to-CSS graph linking
+	•	config.py + .env = All settings centralized
+
 
 
 </details>
@@ -140,6 +148,21 @@ Step 1 — Configure .env, example:
 
 CSS_FOLDER="/path/to/css/files"
 CSS_ORDER=0_tokens.css,1_base.css,2_layout.css,3_components
+
+
+
+## .env configuration
+
+```dotenv
+CSS_FOLDER="/somewhere/css"
+CSS_ORDER=0_tokens.css,1_base.css,2_layout.css,3_components.css,3_motion.css
+OLLAMA_MODEL=codellama:7b
+OLLAMA_URL=http://localhost:11434
+USE_OLLAMA=1
+CHAR_LIMIT=100000
+OUTPUT_DIR="/Users/Username/css-analyzer-ollama/output"
+TARGET_URL=http://localhost:8182/public/index.php?category_id=3
+```
 
 </details>
 
