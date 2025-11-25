@@ -1,19 +1,18 @@
 # AI-WebAnalyzer
 
-*First KI tool for webdev, started oct-2025.* 😎
-
-👉  Analyzing, visualizing, and optimizing CSS architectures.
-
-Combines static analysis (parsing, graph modeling, metrics) with an interactive D3.js visualization (and optional AI-powered insights via Ollama) and makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
-
 <p align="center">
   <img src="./screenshot.png" alt="Graph-Screenshot" width="500">
 </p>
 
+*First KI tool (webdev), started oct-2025.* 😎 👉  Analyzing, visualizing, and optimizing CSS architectures.
 
-## Overview
+
+
 <details>
-<summary>Features</summary>
+<summary>🧩 Features</summary>
+
+- makes large or legacy CSS codebases more understandable, analyzable, and refactor-friendly.
+- Combines static analysis (parsing, graph modeling, metrics) with interactive D3.js visualization (and optional AI-powered insights via Ollama)  
 
 ### 🧩 CSS Structure Graph
 - Processes CSS files in strict order
@@ -46,7 +45,7 @@ Combines static analysis (parsing, graph modeling, metrics) with an interactive 
 
 
 <details>
-<summary>Project Structure</summary>
+<summary>🛠️ Structure</summary>
 
 
 ```text
@@ -95,19 +94,28 @@ AI-WebAnalyzer/
 </details>
 
 <details>
-<summary>Data flow</summary>
+<summary>🧠 Data flow (High-Level Overview)</summary>
 
-- loads your CSS files in a defined order, extracts all dependencies (file → selector → property), and builds a structural graph. Optionally, it fetches an HTML reference page to detect which selectors are actually used and to highlight unused or redundant parts of your styles.
+The system transforms CSS + optional HTML into:
+1) combined_CSS, a merged file including all input css in the defined order.
+2) CSS abstract syntax structures (AST) -> Extracts dependencies: file → selector → property.
+3)	builds a structural graph with graph nodes + links
+4)	HTML usage mapping (optionally, fetch an HTML reference page to detect which selectors are actually used and to highlight unused or redundant parts of your styles.)
+5)	D3 visualization
+6)	Live “code search results table”
+7)	Optional AI analysis (Ollama)
 
 - web interface renders the full relationship graph with zooming, tooltips, filtering, a dynamic legend, and a live table showing all matching CSS lines via regex.
 With Ollama enabled, the system can also produce refactoring suggestions, audits, and semantic insights.
+
+🧠 High-Level Overview
+
+
 </details>
 
-## Requirements
-- Python 3.9+
-- Optional: Ollama for AI analysis (ollama pull codellama:7b)
-
-## Clone Repository
+<details>
+<summary>Requirements or clone</summary>
+You will need Python 3.9 and optional Ollama for AI analysis (ollama pull codellama:7b)
 
 ```sh
 git clone https://github.com/your-user/AI-WebAnalyzer.git
@@ -118,12 +126,14 @@ Install Dependencies
 pip install -r requirements.txt
 ```
 
-
-
-
 ## 🛠️ Usage
 
 Step 1 — Configure .env, example:
 
 CSS_FOLDER="/path/to/css/files"
 CSS_ORDER=0_tokens.css,1_base.css,2_layout.css,3_components
+
+</details>
+
+
+
