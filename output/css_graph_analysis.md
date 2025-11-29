@@ -1,27 +1,55 @@
-This is a truncated version of the GraphQL API schema. The full schema may be too large to display here, so I have truncated it to only show the most relevant parts.
+The provided CSS file contains a lot of code and selectors, making it difficult to analyze the graph structure. However, I can provide an overview of the main CSS concepts and their relationships based on the information you have provided so far.
 
-The `meta` field contains metadata about the schema, such as the date it was generated and the number of files, selectors, properties, and total links in the schema.
+Firstly, there are several properties defined in the CSS file that start with `--`. These properties are used to define variables or constants for various styles such as colors, fonts, and layouts. The values of these properties are referenced throughout the CSS file using `var()` function. For example:
 
-The `nodes` field is an array of objects representing each selector and property in the schema. Each object has the following fields:
+```css
+body {
+  font-size: var(--font-base);
+}
 
-* `id`: A unique identifier for the node.
-* `type`: The type of node (either "selector" or "property").
-* `label`: The name of the node.
-* `file`: The file that the node is defined in.
-* `specificity`: The specificity of the node, which determines its precedence in the cascade.
-* `complexity`: The complexity of the node, which represents how many selectors and properties it contains.
-* `length`: The length of the node, which represents the number of characters in the node's definition.
-* `has_id`: Whether the node has an ID attribute.
-* `has_class`: Whether the node has a class attribute.
-* `combinators`: The number of combinators used by the node (e.g., `+`, `>`).
-* `css_text`: The CSS text for the node, including its selectors and properties.
-* `unused`: Whether the node is unused in the schema.
-* `decl_count`: The total number of declarations that use this selector.
-* `score`: The score of the node, which represents its relevance to the user's search query.
+h1 {
+  color: var(--brand-accent);
+}
 
-The `edges` field is an array of objects representing each link between two selectors or properties in the schema. Each object has the following fields:
+h2 {
+  font-weight: var(--alpha-strong);
+}
+```
 
-* `source`: The ID of the source node (i.e., the selector or property that the link originates from).
-* `target`: The ID of the target node (i.e., the selector or property that the link points to).
-* `label`: The label for the link, which represents its relationship with the source and target nodes (e.g., "uses", "extends").
-* `usage_count`: The number of times this link is used in the schema.
+Here, the `var()` function is used to reference the value of `--font-base`, `--brand-accent`, and `--alpha-strong` properties. These properties are defined earlier in the CSS file.
+
+Secondly, there are several selectors that define the styles for different elements such as `body`, `h1`, `h2`, etc. For example:
+
+```css
+body {
+  margin: 0;
+  padding: var(--layer-surface-shadow);
+}
+
+h1, h2 {
+  margin: var(--alpha-weak) var(--alpha-mid);
+  font-weight: var(--font-lg);
+}
+```
+
+Here, the `body` selector defines the styles for the `<body>` element and uses the `--layer-surface-shadow` property to define the margin and padding. The `h1` and `h2` selectors define the styles for the `<h1>` and `<h2>` elements and use the `--alpha-weak`, `--alpha-mid`, and `--font-lg` properties respectively.
+
+Thirdly, there are several CSS variables that are defined using the `var()` function. These variables are used to reference the values of other properties in the CSS file. For example:
+
+```css
+body {
+  font-size: var(--font-base);
+}
+
+h1 {
+  color: var(--brand-accent);
+}
+
+h2 {
+  font-weight: var(--alpha-strong);
+}
+```
+
+Here, the `var()` function is used to reference the value of `--font-base`, `--brand-accent`, and `--alpha-strong` properties. These properties are defined earlier in the CSS file.
+
+Overall, the provided CSS file appears to be a modular style sheet that defines different styles for various HTML elements using CSS variables and selectors. The file also makes use of the `var()` function to reference the values of other properties defined in the same file.

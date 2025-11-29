@@ -1,17 +1,15 @@
 /* ============================================================
    Base Visualization Styles (AI-WebAnalyzer)
-   Cleaned & Unified
    ------------------------------------------------------------
    - Global dark UI
    - Tooltip
-   - Left-side Controls
-   - Legend (vertical, with checkboxes)
-   - Graph Area (flex layout)
-   - Code View Table (search results)
+   - Left-side Controls + Legend
+   - Right Graph Area (SVG)
+   - Bottom Code View Table (search results)
    ============================================================ */
 
 :root {
-  --bg-main: #111;
+  --bg-main: #aaa;
   --bg-panel: rgba(0, 0, 0, 0.65);
   --bg-overlay: rgba(0, 0, 0, 0.75);
   --bg-table-header: #222;
@@ -32,7 +30,10 @@
 /* ------------------------------------------------------------
    GLOBAL
 ------------------------------------------------------------ */
-* {
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -42,14 +43,28 @@ body {
   color: var(--text-main);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   height: 100vh;
+  overflow: hidden;
+}
+
+/* main layout wrapper */
+#layout {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  height: 100vh;
+}
+
+/* top row = controls (left) + graph (right) */
+#topRow {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  /* important so graph can shrink */
 }
 
 /* ------------------------------------------------------------
    TOOLTIP
 ------------------------------------------------------------ */
+
 .tooltip {
   position: absolute;
   padding: 6px 10px;
@@ -64,26 +79,12 @@ body {
 }
 
 /* ------------------------------------------------------------
-   LAYOUT STRUCTURE
------------------------------------------------------------- */
-#layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-#topRow {
-  flex: 1;
-  display: flex;
-  min-height: 0;
-}
-
-/* ------------------------------------------------------------
    CONTROLS (left sidebar)
 ------------------------------------------------------------ */
+
 #controls {
-  width: 260px;
-  padding: 12px 14px;
+  width: 280px;
+  padding: 10px 12px;
   background: var(--bg-panel);
   backdrop-filter: blur(4px);
   border-right: 1px solid rgba(255, 255, 255, 0.15);
@@ -107,7 +108,7 @@ body {
   line-height: 1.3;
 }
 
-/* Search bar */
+/* Search / filter input */
 #filterInput {
   width: 100%;
   padding: 6px 10px;
@@ -123,9 +124,27 @@ body {
   color: var(--text-muted);
 }
 
+/* Graph type dropdown (optional) */
+#graphType {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: var(--radius-small);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+#graphType option {
+  background: #222;
+  color: var(--text-main);
+}
+
 /* ------------------------------------------------------------
    LEGEND (vertical, with checkboxes)
 ------------------------------------------------------------ */
+
 #legend {
   display: flex;
   flex-direction: column;
@@ -155,11 +174,11 @@ body {
 /* ------------------------------------------------------------
    GRAPH (right section)
 ------------------------------------------------------------ */
+
 #graph {
   flex: 1;
   position: relative;
-  min-width: 0;
-  min-height: 0;
+  overflow: hidden;
 }
 
 #graph svg {
@@ -169,15 +188,87 @@ body {
   background: var(--bg-main);
 }
 
+
 /* ------------------------------------------------------------
-   CODE VIEW (search results table)
+   RIGHT INFO PANEL
 ------------------------------------------------------------ */
+#infoPanel {
+  width: 280px;
+  background: var(--bg-panel);
+  backdrop-filter: blur(4px);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  color: var(--text-main);
+}
+
+#infoPanel h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+#infoContent {
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+#infoPanel strong {
+  color: #fff;
+}
+
+/* Layout improvements for dropdown */
+#graphType {
+  padding: 6px 10px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  width: 220px;
+  cursor: pointer;
+}
+
+#graphType option {
+  background: #222;
+  color: #fff;
+}
+
+
+.description-box {
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.35);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #ccc;
+}
+
+
+
+
+
+
+
+/* ------------------------------------------------------------
+   CODE VIEW (bottom search results table)
+------------------------------------------------------------ */
+
 #codeView {
   height: 32vh;
   min-height: 160px;
   max-height: 40vh;
   overflow: auto;
-  background: var(--bg-table-header);
+  background: var(--bg-table-row);
   border-top: 1px solid var(--border-soft);
   padding: 8px 0;
 }
@@ -206,7 +297,7 @@ body {
 #resultTable td {
   padding: 4px 10px;
   border-bottom: 1px solid var(--border-faint);
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   white-space: pre;
 }
 

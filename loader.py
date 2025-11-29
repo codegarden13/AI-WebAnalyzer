@@ -1,48 +1,67 @@
+# loader.py — remote CSS loader
+import re
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+from typing import Dict
 from pathlib import Path
-from typing import Dict, List
-
-from pathlib import Path
-from typing import Dict, List
 from .config import settings
 
-def load_css_files(css_dir: Path, css_order_raw: str) -> Dict[str, str]:
-    """
-    Returns dict {filename: content}.
-    - If CSS_MODE='order': only use files from CSS_ORDER.
-    - If CSS_MODE='all': order those first, then append remaining alphabetically.
-    """
-    files: Dict[str, str] = {}
 
-    ordered_names: List[str] = []
-    if css_order_raw:
-        ordered_names = [p.strip() for p in css_order_raw.split(",") if p.strip()]
+def load_css_remote() -> Dict[str, str]:
+    """Load all CSS files referenced in the target webpage HTML."""
+    if not settings.TARGET_URL:
+        raise ValueError("TARGET_URL must be set in .env for remote CSS mode.")
 
-    all_css_files = {p.name: p for p in css_dir.glob("*.css")}
+    print(f"🌍 Loading webpage HTML: {settings.TARGET_URL}")
+    resp = requests.get(settings.TARGET_URL, timeout=10)
+    resp.raise_for_status()
+    soup = BeautifulSoup(resp.text, "html.parser")
 
-    if settings.CSS_MODE == "order":
-        # ✅ Only use ordered files
-        for name in ordered_names:
-            p = all_css_files.get(name)
-            if p and p.exists():
-                files[name] = p.read_text(encoding="utf-8")
-        missing = [n for n in ordered_names if n not in files]
-        if missing:
-            print(f"⚠️ Warning: Missing CSS files: {', '.join(missing)}")
-        print(f"✅ Loaded {len(files)} CSS files in strict order mode.")
-        return files
+    # -------------------------------------------------
+    # 1) Extract <link rel="stylesheet" href="...">
+    # -------------------------------------------------
+    css_urls = []
 
-    # Default: include all (ordered first, then rest alphabetically)
-    for name in ordered_names:
-        p = all_css_files.pop(name, None)
-        if p and p.exists():
-            files[name] = p.read_text(encoding="utf-8")
+    for link in soup.find_all("link"):
+        rel = link.get("rel", [])
+        href = link.get("href")
 
-    for name in sorted(all_css_files.keys()):
-        p = all_css_files[name]
-        files[name] = p.read_text(encoding="utf-8")
+        if not href:
+            continue
 
-    print(f"✅ Loaded {len(files)} CSS files (ordered + all others).")
-    return files
+        # Accept any stylesheet-ish link
+        if "stylesheet" in rel or href.lower().endswith(".css"):
+            full_url = urljoin(settings.TARGET_URL, href)
+            css_urls.append(full_url)
 
-def combine_css(css_map: Dict[str, str]) -> str:
-    return "\n".join(f"/* ===== {n} ===== */\n{c}" for n, c in css_map.items())
+    css_urls = list(dict.fromkeys(css_urls))
+    print(f"🔗 Found {len(css_urls)} CSS files in HTML.")
+
+    # -------------------------------------------------
+    # 2) Fetch each CSS file
+    # -------------------------------------------------
+    css_map: Dict[str, str] = {}
+    for url in css_urls:
+        try:
+            print(f"📥 Fetching: {url}")
+            text = requests.get(url, timeout=10).text
+            fname = url.split("/")[-1]
+            css_map[fname] = text
+        except Exception as e:
+            print(f"❌ Failed to fetch {url}: {e}")
+
+    # -------------------------------------------------
+    # 3) Write combined.css to output
+    # -------------------------------------------------
+    combined_path = Path(settings.OUTPUT_DIR) / "combined.css"
+    combined_path.parent.mkdir(parents=True, exist_ok=True)
+
+    combined_text = "\n".join(
+        f"/* ===== {name} ===== */\n{text}" for name, text in css_map.items()
+    )
+    combined_path.write_text(combined_text, encoding="utf-8")
+
+    print(f"🧵 combined.css written → {combined_path}")
+
+    return css_map

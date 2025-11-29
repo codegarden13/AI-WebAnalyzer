@@ -1,15 +1,15 @@
 """
 main.py — CSS Analyzer entry point
 ──────────────────────────────────────────────
-Combines:
-- CSS file loading + merging
-- CSS parsing (cssutils, tinycss2)
-- Graph building + visualization
-- Optional Ollama-based CSS refactor, audit, and graph reasoning
-- Optional HTML mapping via TARGET_URL
-- Summary metrics generation
-
-All outputs are written into settings.OUTPUT_DIR
+Pipeline:
+1. Load CSS files directly from TARGET_URL
+2. Merge remote CSS into combined.css
+3. Parse CSS using cssutils + tinycss2
+4. Build file → selector → property graph
+5. (Optional) Map HTML usage
+6. Write D3 visualization (HTML + assets)
+7. (Optional) Run Ollama analysis
+8. Serve interactive graph UI on port 8080
 """
 
 import json
@@ -17,7 +17,16 @@ from pathlib import Path
 from collections import Counter
 
 from .config import settings
-from .loader import load_css_files, combine_css
+
+
+
+from .loader import load_css_remote
+css_files = load_css_remote()
+
+
+
+
+
 from .parser_css import parse_with_cssutils, parse_with_tinycss2
 from .graph_builder import build_css_graph
 from .visualizer import write_d3_html, serve_visualization
@@ -39,23 +48,22 @@ def summarize_css(graph, output_dir: Path):
     properties = [n for n in graph["nodes"] if n["type"] == "property"]
     links = graph["links"]
 
-    if not selectors or not properties:
-        print("⚠️ No selectors/properties found — skipping summary.")
-        return
-
     prop_counter = Counter(l["target"] for l in links if l["type"] == "uses")
 
     summary = {
         "selectors": len(selectors),
         "properties": len(properties),
         "avg_declarations_per_selector": round(
-            sum(n.get("decl_count", 0) for n in selectors) / max(len(selectors), 1), 2
+            sum(n.get("decl_count", 0) for n in selectors)
+            / max(len(selectors), 1),
+            2
         ),
-        "most_used_property": prop_counter.most_common(1)[0] if prop_counter else None,
+        "most_used_property": prop_counter.most_common(1)[0]
+        if prop_counter else None,
         "total_links": len(links),
     }
 
-    out = Path(output_dir) / "css_summary.json"
+    out = output_dir / "css_summary.json"
     out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print(f"📈 Wrote summary metrics → {out.name}")
 
@@ -71,30 +79,32 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     print(f"📁 Output directory: {output_dir.resolve()}")
 
-    # 2️⃣ Load CSS files
-    css_files = load_css_files(settings.CSS_DIR, settings.CSS_ORDER_RAW)
-    print(f"📂 Loaded {len(css_files)} CSS files from {settings.CSS_DIR}")
+    # 2️⃣ Load CSS from TARGET_URL
+    css_files = load_css_remote()     # <-- NEW SIGNATURE (no args)
+    print(f"📂 Loaded {len(css_files)} remote CSS files.")
 
     if not css_files:
         print("⚠️ No CSS files found — exiting.")
         return
 
-    # 3️⃣ Combine all CSS
-    combined_css = combine_css(css_files)
+    # 3️⃣ Combine all CSS (already written by load_css, but we need it in memory)
+    combined_css = "\n".join(
+        f"/* ===== {name} ===== */\n{content}"
+        for name, content in css_files.items()
+    )
     combined_path = output_dir / "combined.css"
     combined_path.write_text(combined_css, encoding="utf-8")
-    print(f"🧵 Combined CSS written → {combined_path.name} ({len(combined_css)} chars)")
-    
-    # --> updated search for regex
+    print(f"🧵 Combined CSS written → combined.css ({len(combined_css)} chars)")
+
+    # 📄 Write combined lines (for frontend regex table)
     combined_lines = [
-        {"num": i+1, "text": line}
-    for i, line in enumerate(combined_css.splitlines())
+        {"num": i + 1, "text": line}
+        for i, line in enumerate(combined_css.splitlines())
     ]
     (output_dir / "combined.lines.json").write_text(
-    json.dumps({"lines": combined_lines}, indent=2),
-    encoding="utf-8"
+        json.dumps({"lines": combined_lines}, indent=2),
+        encoding="utf-8"
     )
-    # Frontend-Filterfunktion kann damit auch CSS-Zeilen durchsuchen.
 
     # 4️⃣ Parse CSS
     cssutils_rules = parse_with_cssutils(combined_css)
@@ -105,15 +115,17 @@ def main():
     graph = build_css_graph(css_files, cssutils_rules, tinycss_rules)
     graph_path = output_dir / "css_graph.json"
     graph_path.write_text(json.dumps(graph, indent=2), encoding="utf-8")
-    print(f"🗺  Graph JSON written → {graph_path.name} "
-          f"({len(graph['nodes'])} nodes, {len(graph['links'])} links)")
+    print(
+        f"🗺  Graph JSON written → {graph_path.name} "
+        f"({len(graph['nodes'])} nodes, {len(graph['links'])} links)"
+    )
 
-    # 6️⃣ Visualization template
+    # 6️⃣ Write visualization HTML
     html_path = output_dir / "css_graph.html"
     write_d3_html(html_path)
     print(f"📊 Visualization HTML written → {html_path.name}")
 
-    # 7️⃣ Ollama-powered steps (optional)
+    # 7️⃣ Ollama-powered analysis (optional)
     if settings.USE_REFACTOR or settings.USE_AUDIT or settings.USE_GRAPH_ANALYSIS:
         print("\n🤖 Starting Ollama backend...")
         start_ollama()
@@ -158,11 +170,11 @@ def main():
     else:
         print("⚙️ No TARGET_URL defined — skipping HTML mapping.")
 
-    # 9️⃣ Write summary metrics
+    # 9️⃣ Summary metrics
     summarize_css(graph, output_dir)
 
-    # 🔟 Launch visualization (blocking)
-    print("\n🌐 Launching local visualization server...")
+    # 🔟 Launch local web server
+    print("\n🌐 Launching local visualization server at http://localhost:8080")
     serve_visualization(output_dir, port=8080)
 
 

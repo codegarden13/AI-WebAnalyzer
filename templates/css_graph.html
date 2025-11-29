@@ -8,42 +8,57 @@
   <!-- Base Styles -->
   <link rel="stylesheet" href="./assets/css/style.css">
 
-
 </head>
 
 <body>
+  <div id="layout">
+    <!-- Top row: left controls, right graph -->
+    <div id="topRow">
+      <div id="controls">
+        <input id="filterInput" type="text" placeholder="Filter (regex e.g. .hero|#nav)">
 
-  <!-- ──────────────────────────────────────────── -->
-  <!-- Controls + Legend -->
-  <!-- ──────────────────────────────────────────── -->
-  <div id="controls">
-    <input id="filterInput" type="text" placeholder="Filter (regex e.g. .hero|#nav)">
-    <div id="legend"></div>
-  </div>
+        <select id="graphType">
+          <option value="force">Force Graph</option>
+          <option value="sankey">Sankey</option>
+          <option value="columns">Columns View</option>
+        </select>
 
-  <!-- ──────────────────────────────────────────── -->
-  <!-- Graph Visualization Container -->
-  <!-- ──────────────────────────────────────────── -->
-  <div id="graph"></div>
+        <h2>Cluster mode (sankey and columns)</h2>
 
-    <!-- ──────────────────────────────────────────── -->
-  <!-- Code View Table (search results) -->
-  <!-- ──────────────────────────────────────────── -->
-  <div id="codeView">
-    <table id="resultTable">
-      <thead>
-        <tr>
-          <th>Zeile</th>
-          <th>Inhalt</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+        <select id="clusterMode">
+          <option value="file">Cluster by File</option>
+          <option value="semantic">Cluster by Semantic Group</option>
+        </select>
+
+        <div id="legend"></div>
+      </div>
+      <div id="graph"></div>
+      <div id="infoPanel">
+
+        <div id="graphDescription" class="description-box"></div>
+
+        <h2>Details</h2>
+        <div id="infoContent">Click a node to inspect it.</div>
+
+      </div>
+    </div>
+
+    <!-- Bottom: table -->
+    <div id="codeView">
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>Zeile</th>
+            <th>Inhalt</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </div>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script type="module" src="./assets/js/main.js"></script>
-
 </body>
 
 </html>
