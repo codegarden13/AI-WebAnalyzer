@@ -1,202 +1,147 @@
-AI-WebAnalyzer
+## Purpose
 
-From code cleanup to architectural insights.
+CSS Graph Visualizer analyzes and visualizes the architecture of CSS + HTML for a website:
+- CSS files, selectors, properties, HTML nodes
+	•	Relationships: selector → property, HTML element → selector, file → selector
+	•	Graph-based insights for refactoring & audits
 
-<p align="center">
-  <img src="./screenshot.png" alt="Graph-Screenshot" width="500">
-</p>
-
-
-A system for analyzing, visualizing, and optimizing CSS architectures.
-Combines static code parsing, graph modeling, HTML usage mapping, and optional semantic reasoning via Ollama.
+It provides three visualization modes: Force Graph (network view), Columns View (structured layout) and Sankey View (flow-style view) and includes:
+	•	Selector clustering (file-based or semantic)
+	•	Property clustering (usage buckets)
+	•	Regex search + code table
+	•	Legend filtering
+	•	InfoPanel for rich node inspection
 
 ⸻
 
-🧩 Features
+🧱 Project Structure
 
-<details>
-<summary><strong>Click to expand</strong></summary>
+```text
+assets/
+  css/
+    style.css
 
+  js/
+    main.js
+    forceGraph.js
+    columnsView.js
+    sankeyGraph.js
 
-🧱 CSS Structure Graph
-	•	Processes CSS files in a strict, user-defined load order
-	•	Extracts relationships: file → selector → property
-	•	Creates enriched graph JSON: css_graph_with_html.json
+    clusterSelectors.js
+    clusterPropertiesByUsage.js
 
-🕸️ Interactive Visualization (D3.js)
-	•	Force-directed graph (zoom, pan, drag)
-	•	Color-coded node types (file, selector, property, HTML)
-	•	Dynamic legend with toggle checkboxes
-	•	Regex search for selectors or patterns
-	•	Tooltips with metadata
-	•	Click-to-highlight connected nodes
+    legend.js
+    filter.js
+    table.js
+    color.js
 
-🌐 HTML Mapping
-	•	Loads HTML from a URL
-	•	Detects which selectors match real DOM elements
-	•	Flags unused CSS selectors
+    infoPanel.js
+    tooltip.js
+    zoom.js
 
-🤖 Optional AI Analysis (Ollama)
-	•	Semantic CSS refactoring
-	•	Audits structure, naming, consistency
-	•	Produces insights (css_graph_analysis.md)
-
-📊 Extra Metrics
-	•	Property-usage statistics
-	•	Complexity & specificity scoring
-	•	Live filter → shows matching CSS lines in table view
-
-</details>
-
+combined.css
+css_graph_with_html.json
+```
 
 
 ⸻
 
-🛠️ Project Structure
+## Workflow
 
-<details>
-<summary><strong>Folder overview</strong></summary>
+1) Build CSS Graph (graph_builder.py)
+	•	Extrahiert Selektoren & Properties
+	•	Erzeugt uses-Beziehungen
+	•	Bewertet Komplexität, Spezifität, Nutzung
+	•	Gibt css_graph.json aus
 
+2) HTML Mapping (html_mapper.py)
+	•	Verknüpft DOM-Elemente mit CSS-Selektoren
+	•	Markiert ungenutzte Selektoren
+	•	Fügt HTML-Knoten + matches-Kanten hinzu
+	•	Gibt css_graph_with_html.json aus
 
-AI-WebAnalyzer/
-│
-├── assets/
-│   ├── css/style.css              # Visualization UI styles
-│   └── js/                        # Modular D3 visualization logic
-│       ├── main.js                # Entry point
-│       ├── graph.js               # Force graph & interactions
-│       ├── filter.js              # Regex-based filtering
-│       ├── legend.js              # Dynamic legend component
-│       ├── tooltip.js             # Hover tooltip logic
-│       ├── zoom.js                # Zoom + pan
-│       └── color.js               # Color mapping
-│
-├── ollama/
-│   ├── audit.py                   # CSS audits via Ollama
-│   ├── graph_analysis.py          # Semantic graph reasoning
-│   ├── refactor.py                # LLM-based refactoring
-│   ├── insights.py                # Metrics
-│   ├── service.py                 # Handles Ollama service
-│   └── utils.py                   # Helpers
-│
-├── output/                        # Generated analysis files
-│   ├── css_graph_with_html.json   # The main graph
-│   ├── css_graph_analysis.md      # AI insight report
-│   └── refactored/                # Per-file refactored CSS
-│
-├── templates/
-│   └── css_graph.html             # HTML shell for visualization
-│
-├── main.py                        # Orchestrates analysis workflow
-├── loader.py                      # Loads & merges CSS
-├── parser_css.py                  # CSS parsing
-├── graph_builder.py               # Builds CSS graph
-├── html_mapper.py                 # Maps selectors → HTML
-├── visualizer.py                  # Writes visualization + server
-├── config.py                      # Reads `.env`
-├── .env                           # User configuration
-├── requirements.txt               # Python deps
-└── README.md                      # This document
+3) Frontend Visualisierung (main.js)
+	•	Lädt Graph-JSON
+	•	Rendert Force / Columns / Sankey
+	•	Aktiviert Zoom, Legend-Toggle, InfoPanel, Filter, Clustering
+	•	Nutzt combined.css für Regex-Suche
 
-</details>
+⸻
 
+📊 Visualization Modes
+
+1. Force Graph
+	•	Physikbasierte Netzvisualisierung
+	•	Zeigt Gesamtzusammenhänge
+	•	Drag, Zoom, Highlighting
+
+2. Columns View
+	•	Klare Spalten: Files → Selector-Cluster → Properties
+	•	Ideal für Debugging & Architektur-Übersicht
+	•	InfoPanel rechts
+	•	Unterstützt Selector-Clustering
+
+3. Sankey View
+	•	Flussorientiert: Files → Selectors → Property-Cluster
+	•	Linkdicke = Nutzungshäufigkeit
+	•	Properties gruppiert in Usage-Buckets
+
+⸻
+
+🔍 Interaction Features
+	•	Legend Filtering – Typen ein/ausblenden
+	•	Regex Filter – beeinflusst Graph + Code-Tabelle
+	•	Hover – Preview im InfoPanel
+	•	Click – InfoPanel pinnen
+	•	Zoom / Pan – Maus + Drag
+	•	0 – Zoom Reset
+
+⸻
+
+🧩 Clustering
+
+Selector Clustering (clusterSelectors.js)
+	•	file → Gruppierung nach Quell-CSS-Datei
+	•	semantic → Gruppierung nach Namensmustern, Präfixen, Keywords
+
+Property Clustering (clusterPropertiesByUsage.js)
+	•	Gruppiert Properties dynamisch anhand der Anzahl eingehender Kanten
+	•	Default: 3 Buckets (Low / Medium / High)
+
+⸻
+
+🖥️ HTML Layout
+
+<div id="layout">
+  <div id="topRow">
+    <div id="controls"></div>
+    <div id="graph"></div>
+    <div id="infoPanel"></div>
+  </div>
+  <div id="codeView"></div>
+</div>
 
 
 ⸻
 
-🧠 Data Flow
-
-<details>
-<summary><strong>Processing pipeline</strong></summary>
-
-
-1) Load & merge CSS
-
-Reads configured CSS files from the folder defined in .env → produces combined.css.
-
-2) Parse CSS
-
-Using cssutils + tinycss2 for robustness.
-
-3) Build Graph
-
-Creates structured relationships:
-	•	file → selector → property
-	•	selector metrics (complexity, specificity)
-
-4) HTML Mapping
-
-Fetches HTML → identifies selector matches → marks unused selectors.
-
-5) Graph JSON Output
-
-Saves css_graph_with_html.json.
-
-6) Visualization
-
-D3.js renders interactive graph + regex search + CSS table results.
-
-7) Optional AI Layer
-
-Ollama performs audits, refactorings, and semantic graph reasoning.
-
-flowchart TD
-    A[Load CSS files] --> B[Combine into combined.css]
-    B --> C[Parse via cssutils & tinycss2]
-    C --> D[Graph Builder: file→selector→property]
-    D --> E[HTML Mapper]
-    E --> F[css_graph_with_html.json]
-    F --> G[D3.js Visualization]
-    F --> H[Ollama AI Analysis]
-
-</details>
-
-
+📦 Data Sources
+	•	combined.css — alle CSS-Regeln für Regex-Analyse
+	•	css_graph_with_html.json — vollständiger CSS+HTML-Graph
 
 ⸻
 
-⚙️ Requirements & Installation
-
-<details>
-<summary><strong>Expand</strong></summary>
-
-
-Requirements
-	•	Python 3.9+
-	•	Optional: Ollama (ollama pull codellama:7b)
-
-Install
-
-git clone https://github.com/your-user/AI-WebAnalyzer.git
-cd AI-WebAnalyzer
-pip install -r requirements.txt
-
-Configure .env
-
-CSS_FOLDER="/path/to/css"
-CSS_ORDER=0_tokens.css,1_base.css,2_layout.css,3_components.css
-OUTPUT_DIR="/path/to/output"
-TARGET_URL=http://localhost:8182/public/index.php?category_id=3
-OLLAMA_MODEL=codellama:7b
-USE_OLLAMA=1
-
-Run
-
-python -m AI-WebAnalyzer.main
-
-</details>
-
-
+🧪 Ideas for Future Enhancements
+	•	Dynamische Clusteranzahl
+	•	Property-Kategorien (typography / layout / animation / misc)
+	•	HTML-Knoten optional sichtbar machen
+	•	Minimap für ForceGraph
+	•	Caching und History-Vergleich zwischen Versionen
 
 ⸻
 
-❤️ Credits
-	•	D3.js
-	•	cssutils
-	•	tinycss2
-	•	BeautifulSoup4
-	•	Ollama
+✔️ TL;DR
+	•	Backend erzeugt Graph-JSON (CSS + HTML)
+	•	Frontend bietet 3 interaktive Visualisierungen
+	•	Clusterung, Filtering, InfoPanel = tiefe Einsichten
+	•	Perfekt für CSS-Audits, Refactoring, Style-System-Analyse
 
-⸻
-
-Happy analyzing & refactoring! 🎨✨
