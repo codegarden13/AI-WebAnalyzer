@@ -1,50 +1,25 @@
-## Purpose
+# interaktive Visualisierung von CSS-HTML Architekturen
 
-CSS Graph Visualizer analyzes and visualizes the architecture of CSS + HTML for a website:
 - CSS files, selectors, properties, HTML nodes
-	•	Relationships: selector → property, HTML element → selector, file → selector
-	•	Graph-based insights for refactoring & audits
+- Beziehungen: selector → property, HTML element → selector, file → selector
+- Graph-basierte Code-Einblicke für refactoring & audits
 
-It provides three visualization modes: Force Graph (network view), Columns View (structured layout) and Sankey View (flow-style view) and includes:
+## Zielgruppe:
+Webdesigner 
+
+## Anwendung und Einsatzgebiete
+
+<details>
+<summary>Anwendung und Einsatzgebiete</summary>
+
+
+three visualization modes: Force Graph (network view), Columns View (structured layout) and Sankey View (flow-style view) and includes:
 	•	Selector clustering (file-based or semantic)
 	•	Property clustering (usage buckets)
 	•	Regex search + code table
 	•	Legend filtering
 	•	InfoPanel for rich node inspection
 
-⸻
-
-🧱 Project Structure
-
-```text
-assets/
-  css/
-    style.css
-
-  js/
-    main.js
-    forceGraph.js
-    columnsView.js
-    sankeyGraph.js
-
-    clusterSelectors.js
-    clusterPropertiesByUsage.js
-
-    legend.js
-    filter.js
-    table.js
-    color.js
-
-    infoPanel.js
-    tooltip.js
-    zoom.js
-
-combined.css
-css_graph_with_html.json
-```
-
-
-⸻
 
 ## Workflow
 
@@ -66,9 +41,8 @@ css_graph_with_html.json
 	•	Aktiviert Zoom, Legend-Toggle, InfoPanel, Filter, Clustering
 	•	Nutzt combined.css für Regex-Suche
 
-⸻
 
-📊 Visualization Modes
+## Visualisierungtypen und Features
 
 1. Force Graph
 	•	Physikbasierte Netzvisualisierung
@@ -96,9 +70,8 @@ css_graph_with_html.json
 	•	Zoom / Pan – Maus + Drag
 	•	0 – Zoom Reset
 
-⸻
 
-🧩 Clustering
+## 🧩 Clustering
 
 Selector Clustering (clusterSelectors.js)
 	•	file → Gruppierung nach Quell-CSS-Datei
@@ -108,40 +81,10 @@ Property Clustering (clusterPropertiesByUsage.js)
 	•	Gruppiert Properties dynamisch anhand der Anzahl eingehender Kanten
 	•	Default: 3 Buckets (Low / Medium / High)
 
-⸻
-
-🖥️ HTML Layout
-
-<div id="layout">
-  <div id="topRow">
-    <div id="controls"></div>
-    <div id="graph"></div>
-    <div id="infoPanel"></div>
-  </div>
-  <div id="codeView"></div>
-</div>
 
 
-⸻
-
-📦 Data Sources
+## Erzeugte Datasets 
 	•	combined.css — alle CSS-Regeln für Regex-Analyse
 	•	css_graph_with_html.json — vollständiger CSS+HTML-Graph
 
-⸻
-
-🧪 Ideas for Future Enhancements
-	•	Dynamische Clusteranzahl
-	•	Property-Kategorien (typography / layout / animation / misc)
-	•	HTML-Knoten optional sichtbar machen
-	•	Minimap für ForceGraph
-	•	Caching und History-Vergleich zwischen Versionen
-
-⸻
-
-✔️ TL;DR
-	•	Backend erzeugt Graph-JSON (CSS + HTML)
-	•	Frontend bietet 3 interaktive Visualisierungen
-	•	Clusterung, Filtering, InfoPanel = tiefe Einsichten
-	•	Perfekt für CSS-Audits, Refactoring, Style-System-Analyse
-
+</details>
